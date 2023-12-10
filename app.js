@@ -15,19 +15,28 @@ mongoose.connect(CONNECTION_STRING);
 console.log(CONNECTION_STRING)
 const app = express()
 
-app.use(
-    session({
-        secret: "any string",
-        resave: false,
-        saveUninitialized: true,
-    })
-);
+
 app.use(
     cors({
         credentials: true,
         origin: process.env.FRONTEND_URL,
     })
 );
+const sessionOptions = {
+    secret: "any string",
+    resave: false,
+    saveUninitialized: false,
+  };
+  if (process.env.NODE_ENV !== "development") {
+    sessionOptions.proxy = true;
+    sessionOptions.cookie = {
+      sameSite: "none",
+      secure: true,
+    };
+  }
+  app.use(session(sessionOptions));
+  
+
 
 app.use(express.json());
 AuthController(app);
