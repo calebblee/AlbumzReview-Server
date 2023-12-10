@@ -8,7 +8,7 @@ import ReviewController from './controllers/reviews/review-controller.js';
 import FollowsController from './controllers/follows/follows-controller.js';
 dotenv.config()
 
-const CONNECTION_STRING = //process.env.DB_CONNECTION_STRING ||
+const CONNECTION_STRING = process.env.DB_CONNECTION_STRING ||
     'mongodb://127.0.0.1:27017/';
 
 mongoose.connect(CONNECTION_STRING);
@@ -25,7 +25,7 @@ app.use(
 app.use(
     cors({
         credentials: true,
-        origin: "http://localhost:3000",
+        origin: process.env.FRONTEND_URL,
     })
 );
 
